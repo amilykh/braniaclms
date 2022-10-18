@@ -2,15 +2,15 @@ from mainapp import views
 from django.urls import path
 from mainapp.apps import MainappConfig
 
-# из файла apps.py
-# app_name = 'mainapp'
+
 app_name = MainappConfig.name
 
+
 urlpatterns = [
-    # '' - пустой паттерн, который будет ссылаться на корень сайта
-    # views.hello_world -  ссылка на функцию, котора будет отрабатывать
-    # name - параметр необходим будет позже для быстрого доступа к url-ам
-    path('', views.hello_world, name='hello_world'),
-    path('<str:word>/', views.blog),
-    # path('blog/', views.blog),
+    path('contacts/', views.ContactsView.as_view(), name='contacts'),
+    path('courses/', views.CoursesListView.as_view(), name='courses'),
+    path('docsite/', views.DocSiteView.as_view(), name='docsite'),
+    path('', views.IndexView.as_view(), name='index'),
+    path('login/', views.LoginView.as_view(), name='login'),
+    path('news/', views.NewsView.as_view(), name='news'),
 ]
