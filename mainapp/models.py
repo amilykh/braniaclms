@@ -1,6 +1,9 @@
 from django.db import models
 
 
+NULLABLE = {'blank': True, 'null': True}
+
+
 # Create your models here.
 class News(models.Model):  # таблица новостей
     title = models.CharField(max_length=256, verbose_name='Заголовок')

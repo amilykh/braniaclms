@@ -22,7 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-anb_kwlj6&ls6%*=oplg8@6by^xow3)cg^0xdbw**g@%!*&$i)'
+SECRET_KEY = \
+    'django-insecure-anb_kwlj6&ls6%*=oplg8@6by^xow3)cg^0xdbw**g@%!*&$i)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'authapp',
     'mainapp',  # обязательно прописываем все создаваемые приложения здесь
 ]
 
@@ -57,7 +59,8 @@ ROOT_URLCONF = 'braniaclms.urls'  # точка входа
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',  # шаблонизатор
+        # шаблонизатор
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],  # где ещё могут располагаться шаблоны для нашего проекта
         'APP_DIRS': True,  # поиск папок templates
         'OPTIONS': {
@@ -91,16 +94,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.NumericPasswordValidator',
     },
 ]
 
@@ -125,7 +132,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / 'static',  # мы загружаем статику
 ]
 
 # Default primary key field type
@@ -133,7 +140,22 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 2
-}
+MEDIA_URL = '/media/'  # картинки, видео, аудиодорожки, просто файлы
+# пользователь загружает медиа
+MEDIA_ROOT = BASE_DIR / 'media'
+
+AUTH_USER_MODEL = 'authapp.User'  # дописать путь до нашей новой модели
+# После этого возникает деградация данных, т.е. не соответствие с базой данных
+# Как избежать её?
+# 1) Останавливаем сервер
+# 2) Удаляем  базу db.sqlite3
+# 3) Делаем заново migrate
+#    python3 manage.py migrate
+# Создался новый чисты экземпляр базы с нашим созданным пользователем
+
+LOGIN_REDIRECT_URL = ''
+
+LOGOUT_REDIRECT_URL = ''
+
+# REST_FRAMEWORK = { 'DEFAULT_PAGINATION_CLASS':
+# 'rest_framework.pagination.LimitOffsetPagination', 'PAGE_SIZE': 2 }
