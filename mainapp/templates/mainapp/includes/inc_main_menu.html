@@ -1,13 +1,17 @@
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-        <li class="nav-item {% if request.resolver_match.url_name == 'news' %}active{% endif %}">
+        <li class="nav-item {% if request.resolver_match.url_name == 'news' %}
+          active{% endif %}">
             <a class="nav-link" href="{% url 'mainapp:news' %}">Новости</a>
         </li>
-        <li class="nav-item {% if request.resolver_match.url_name == 'courses' %}active{% endif %}">
+        <li class=
+                "nav-item {% if request.resolver_match.url_name == 'courses' %}
+                active{% endif %}">
             <a class="nav-link" href="{% url 'mainapp:courses' %}">Курсы</a>
         </li>
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="ddProfile" role="button" data-toggle="dropdown"
+            <a class="nav-link dropdown-toggle" href="#" id="ddProfile"
+               role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
                 Профиль
             </a>
@@ -21,9 +25,32 @@
                 <a class="dropdown-item" href="#">Выход</a>
             </div>
         </li>
-        <li class="nav-item {% if request.resolver_match.url_name == 'contacts' %}active{% endif %}">
+        <!--
+        <li class="nav-item" >
             <a class="nav-link" href="{% url 'mainapp:contacts' %}">Контакты</a>
         </li>
+        -->
+        <li class=
+                "nav-item {% if request.resolver_match.url_name == 'contacts' %}
+                active{% endif %}">
+            <a class="nav-link" href="{% url 'mainapp:contacts' %}">Контакты</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item ">
+            <a class="nav-link" href="{% url 'authapp:edit' %}"
+            >{{ user.first_name|default:user.username }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'authapp:logout' %}"
+            >Выход</a>
+        </li>
+        {%  else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'authapp:login' %}"
+          >Вход</a>
+        </li>
+        {%  endif %}
     </ul>
-    <span><a href="#">🇷🇺</a> <i class="fas fa-grip-lines-vertical"></i> <a href="#">🇬🇧</a></span>
+    <span><a href="#">🇷🇺</a>
+      <i class="fas fa-grip-lines-vertical"></i> <a href="#">🇬🇧</a></span>
 </div>
