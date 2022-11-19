@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'social_django',
+
     'authapp',
     'mainapp',  # обязательно прописываем все создаваемые приложения здесь
 ]
@@ -70,6 +72,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'mainapp.context_processor.my_context_processor',
+                'social_django.context_processors.backends',  # for social
+                'social_django.context_processors.login_redirect',  # for social
             ],
         },
     },
@@ -159,5 +163,19 @@ LOGOUT_REDIRECT_URL = 'mainapp:index'
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',  # 2-я версия OAuth
+    'django.contrib.auth.backends.ModelBackend',  # базовый
+)
+
 # REST_FRAMEWORK = { 'DEFAULT_PAGINATION_CLASS':
 # 'rest_framework.pagination.LimitOffsetPagination', 'PAGE_SIZE': 2 }
+
+
+# Пока в тестовых целях не правильный вариант!
+# Ключи складывают в переменную окружения и работают на подгузку!!!
+# На худой конец, складыают в какой-либо файл, который пойдёт в gitignore
+# и эти ключи не полетят в репозиторий.
+SOCIAL_AUTH_GITHUB_KEY = '621c325d79e67f521a52'
+# генерируется один раз
+SOCIAL_AUTH_GITHUB_SECRET = 'b55d60a862853adcc3449f92ce4d7bf0832dac49'
