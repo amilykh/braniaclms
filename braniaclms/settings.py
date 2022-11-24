@@ -22,7 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-anb_kwlj6&ls6%*=oplg8@6by^xow3)cg^0xdbw**g@%!*&$i)'
+SECRET_KEY = \
+    'django-insecure-anb_kwlj6&ls6%*=oplg8@6by^xow3)cg^0xdbw**g@%!*&$i)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,6 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'crispy_forms',  # библиотека для красивого вывода форм
+    'social_django',
+
+    'authapp',
     'mainapp',  # обязательно прописываем все создаваемые приложения здесь
 ]
 
@@ -57,8 +62,10 @@ ROOT_URLCONF = 'braniaclms.urls'  # точка входа
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',  # шаблонизатор
-        'DIRS': [],  # где ещё могут располагаться шаблоны для нашего проекта
+        # шаблонизатор
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': ['templates'],  # где ещё могут располагаться шаблоны для
+        # нашего проекта
         'APP_DIRS': True,  # поиск папок templates
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +73,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'mainapp.context_processor.my_context_processor',
+                'social_django.context_processors.backends',  # for social
+                'social_django.context_processors.login_redirect',  # for social
             ],
         },
     },
@@ -90,16 +100,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.NumericPasswordValidator',
     },
 ]
 
@@ -123,7 +137,52 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # мы загружаем статику
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'  # картинки, видео, аудиодорожки, просто файлы
+# пользователь загружает медиа
+MEDIA_ROOT = BASE_DIR / 'media'
+
+AUTH_USER_MODEL = 'authapp.User'  # дописать путь до нашей новой модели
+# После этого возникает деградация данных, т.е. не соответствие с базой данных
+# Как избежать её?
+# 1) Останавливаем сервер
+# 2) Удаляем  базу db.sqlite3
+# 3) Делаем заново migrate
+#    python3 manage.py migrate
+# Создался новый чисты экземпляр базы с нашим созданным пользователем
+
+LOGIN_REDIRECT_URL = 'mainapp:index'
+
+LOGOUT_REDIRECT_URL = 'mainapp:index'
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',  # 2-я версия OAuth
+    'django.contrib.auth.backends.ModelBackend',  # базовый
+)
+
+# REST_FRAMEWORK = { 'DEFAULT_PAGINATION_CLASS':
+# 'rest_framework.pagination.LimitOffsetPagination', 'PAGE_SIZE': 2 }
+
+
+# Пока в тестовых целях не правильный вариант!
+# Ключи складывают в переменную окружения и работают на подгузку!!!
+# На худой конец, складыают в какой-либо файл, который пойдёт в gitignore
+# и эти ключи не полетят в репозиторий.
+SOCIAL_AUTH_GITHUB_KEY = '621c325d79e67f521a52'
+# генерируется один раз
+SOCIAL_AUTH_GITHUB_SECRET = 'b55d60a862853adcc3449f92ce4d7bf0832dac49'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'  # сообщаем crispy_forms о том,
+# что мы используем bootstrap4 и на основе него нам нужно разукрашивать
+# все формы
+
