@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'crispy_forms',  # библиотека для красивого вывода форм
     'social_django',
 
     'authapp',
@@ -63,7 +64,8 @@ TEMPLATES = [
     {
         # шаблонизатор
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # где ещё могут располагаться шаблоны для нашего проекта
+        'DIRS': ['templates'],  # где ещё могут располагаться шаблоны для
+        # нашего проекта
         'APP_DIRS': True,  # поиск папок templates
         'OPTIONS': {
             'context_processors': [
@@ -179,3 +181,8 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_GITHUB_KEY = '621c325d79e67f521a52'
 # генерируется один раз
 SOCIAL_AUTH_GITHUB_SECRET = 'b55d60a862853adcc3449f92ce4d7bf0832dac49'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'  # сообщаем crispy_forms о том,
+# что мы используем bootstrap4 и на основе него нам нужно разукрашивать
+# все формы
+

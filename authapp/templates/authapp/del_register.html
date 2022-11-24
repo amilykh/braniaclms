@@ -2,6 +2,7 @@
 {% block content %}
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    <!--
     <p>
       <input type="text" name="username" autofocus=""
              autocapitalize="none" autocomplete="username"
@@ -46,6 +47,8 @@
              class="textinput textInput form-control"
              required="" placeholder="Avatar">
     </p>
+    -->
+    {{ form.as_p }}
     <p>
       <button type="submit" class="btn btn-primary btn-block">
         Зарегистрироваться
