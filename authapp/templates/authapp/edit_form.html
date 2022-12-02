@@ -1,0 +1,27 @@
+{% extends 'mainapp/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <form class="col-6 m-auto p-5 pb-5" method="post"
+        enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <p>
+      <button type="submit" class="btn btn-primary btn-block">
+        Сохранить
+      </button>
+    </p>
+  </form>
+
+{% endblock %}
+
+{% block js %}
+  <script>
+      $(document).ready(function () {
+          {% if messages %}
+              // Toasts
+              $(".toast").toast({delay: 5000});
+              $(".toast").toast("show");
+          {% endif %}
+      });
+  </script>
+{% endblock %}
