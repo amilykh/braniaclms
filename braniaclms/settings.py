@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+import os
 # ----- определение базовой дирректории, в которой находится проект ------------
 from pathlib import Path
 
@@ -28,8 +29,14 @@ SECRET_KEY = \
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 # ALLOWED_HOSTS нужен, когда мы проект заливаем на какой-либо сервер.
+ALLOWED_HOSTS = ['*']  # поставили '*' для django-debug-toolbar
+
+if DEBUG:
+    INTERNAL_IPS = [
+        '127.0.0.1'
+    ]
+
 
 # Application definition
 
@@ -42,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'crispy_forms',  # библиотека для красивого вывода форм
+    'debug_toolbar',  # для подключения django-debug-toolbar
     'social_django',  # для авторизации через GitHub
 
     'authapp',  # регистрируем приложение аунтификации
@@ -49,6 +57,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # 'django.middleware.cache.UpdateCacheMiddleware',  # кэширование сайта
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,6 +65,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',  # django-debut-toolbar
+    # 'django.middleware.cache.FetchFromCacheMiddleware',  # кэширование сайта
 ]
 
 ROOT_URLCONF = 'braniaclms.urls'  # точка входа
@@ -188,3 +199,86 @@ SOCIAL_AUTH_GITHUB_SECRET = 'b55d60a862853adcc3449f92ce4d7bf0832dac49'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'  # сообщаем crispy_forms о том,
 # что мы используем bootstrap4 и на основе него нам нужно разукрашивать
 # все формы
+
+
+# настройки кэша (стандартный порт для redis 6379)
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        }
+    }
+}
+
+# насторойки для celery
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://loclhost:6379'
+
+# EMAIL_HOST = ''
+# EMAIL_PORT = 25
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
+# EMAIL_USE_SSL = True
+
+# # для yandex
+# EMAIL_HOST = 'smtp.yandex.ru'
+# EMAIL_PORT = 465
+# EMAIL_HOST_USER = 'myname@yandex.ru'
+# EMAIL_HOST_PASSWORD = 'mypassword'
+# EMAIL_USE_SSL = True
+
+# # Для google
+# EMAIL_USE_SSL = False
+# EMAIL_USE_TLS = True
+
+# для локльного тестирования
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'emails-tmp'  # каталог для хранения
+
+
+# # FILE-handler
+# # нужно создать папку log и добавить её в .gitignore !!!
+# LOG_FILE = BASE_DIR / "log" / "main_log.log"
+#
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "formatters": {
+#         "console": {
+#             "format": "[%(asctime)s] %(levelname)s %(name)s (%(lineno)d) %("
+#                       "message)s"
+#         },
+#     },
+#     "handlers": {
+#         "file": {
+#             "level": "INFO",
+#             "class": "logging.FileHandler",
+#             "filename": LOG_FILE,
+#             "formatter": "console",
+#         },
+#         "console": {"class": "logging.StreamHandler", "formatter": "console"},
+#     },
+#     "loggers": {
+#         "django": {"level": "INFO", "handlers": ["file", "console"]},
+#     },
+# }
+
+# # Самый простой вариант создания логов STREAM-handler
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "formatters": {  # позволяют менять формат логов
+#         "console": {
+#             "format": "[%(asctime)s] %(levelname)s %(name)s (%(lineno)d)%("
+#                   "message)s"
+#         },
+#     },
+#     "handlers": {
+#         "console": {"class": "logging.StreamHandler", "formatter": "console"},
+#     },
+#     "loggers": {
+#         "django": {"level": "INFO", "handlers": ["console"]},
+#     },
+# }
