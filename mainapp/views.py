@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect, JsonResponse, FileResponse
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView, ListView, UpdateView, \
     DeleteView, DetailView, CreateView, View
 

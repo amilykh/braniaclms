@@ -1,6 +1,8 @@
 from django.conf import settings
-# from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -50,8 +52,8 @@ class News(BaseModel):  # таблица новостей
         return f"#{self.pk} {self.title}"
 
     class Meta:
-        verbose_name = 'новость'
-        verbose_name_plural = 'новости'
+        verbose_name = _('новость')
+        verbose_name_plural = _('новости')
 
 
 class CoursesManager(models.Manager):
@@ -81,8 +83,8 @@ class Courses(BaseModel):
         return f"#{self.pk} {self.title}"
 
     class Meta:
-        verbose_name = 'курс'
-        verbose_name_plural = 'курсы'
+        verbose_name = _('курс')
+        verbose_name_plural = _('курсы')
 
 
 class Lesson(BaseModel):
@@ -102,8 +104,8 @@ class Lesson(BaseModel):
         return f'#{self.course.name} | {self.num} | {self.title}'
 
     class Meta:
-        verbose_name = 'урок'
-        verbose_name_plural = 'уроки'
+        verbose_name = _('урок')
+        verbose_name_plural = _('уроки')
 
 
 class CourseTeachers(models.Model):
@@ -119,8 +121,8 @@ class CourseTeachers(models.Model):
         )
 
     class Meta:
-        verbose_name = 'курс к учителю'
-        verbose_name_plural = 'курсы к учителям'
+        verbose_name = _('курс к учителю')
+        verbose_name_plural = _('курсы к учителям')
 
 
 class CourseFeedback(BaseModel):
@@ -144,24 +146,25 @@ class CourseFeedback(BaseModel):
 
     course = models.ForeignKey(Courses,
                                on_delete=models.CASCADE,
-                               verbose_name='Курс')
+                               verbose_name=_('Курс'))
 
     # user = models.ForeignKey(get_user_model(),
     #                          on_delete=models.CASCADE,
-    #                          verbose_name='Пользователь')
+    #                          verbose_name=_('Пользователь'))
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
-                             verbose_name='Пользователь')
+                             verbose_name=_('Пользователь'))
 
     rating = models.SmallIntegerField(choices=RATINGS,
                                       default=5,
-                                      verbose_name='Рейтинг')
+                                      verbose_name=_('Рейтинг'))
 
-    feedback = models.TextField(verbose_name='Отзыв', default='Без отзыва')
+    feedback = models.TextField(verbose_name=_('Отзыв'),
+                                default=_('Без отзыва'))
 
     created_at = models.DateTimeField(auto_now_add=True,
-                                      verbose_name="Created")
+                                      verbose_name=_("Created"))
     deleted = models.BooleanField(default=False)
 
 

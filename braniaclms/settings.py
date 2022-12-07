@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+from django.utils.translation import gettext_lazy as _
+
 import os
 # ----- определение базовой дирректории, в которой находится проект ------------
 from pathlib import Path
@@ -60,6 +62,7 @@ MIDDLEWARE = [
     # 'django.middleware.cache.UpdateCacheMiddleware',  # кэширование сайта
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -132,8 +135,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
+# LANGUAGES = [
+#     ('en', _('English')),
+#     ('ru', _('Russian')),
+# ]
+
 # LANGUAGE_CODE = 'en-us'
-LANGUAGE_CODE = 'ru-ru'  # админка
+LANGUAGE_CODE = 'ru-ru' # админка
+
+
 
 # TIME_ZONE = 'UTC'
 TIME_ZONE = 'Europe/Moscow'
@@ -237,6 +247,7 @@ CELERY_RESULT_BACKEND = 'redis://loclhost:6379'
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'emails-tmp'  # каталог для хранения
 
+LOCALE_PATHS = [BASE_DIR / 'locale',]
 
 # # FILE-handler
 # # нужно создать папку log и добавить её в .gitignore !!!
