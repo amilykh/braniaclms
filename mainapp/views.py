@@ -1,25 +1,43 @@
 # from django.shortcuts import render
 # from django.core.paginator import Paginator
-from django.contrib.auth.mixins import PermissionRequiredMixin, \
-    UserPassesTestMixin
+
+# import logging
+
+from django.contrib.auth.mixins import (
+    PermissionRequiredMixin,
+    UserPassesTestMixin,
+)
 from django.core.cache import cache
 from django.http import HttpResponseRedirect, JsonResponse, FileResponse
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import TemplateView, ListView, UpdateView, \
-    DeleteView, DetailView, CreateView, View
+from django.views.generic import (
+    TemplateView,
+    ListView,
+    UpdateView,
+    DeleteView,
+    DetailView,
+    CreateView,
+    View,
+)
 
 
 from mainapp import tasks
 from braniaclms import settings
 from mainapp.forms import CourseFeedbackForm
-from mainapp.models import News, Courses, CourseTeachers, Lesson, \
-    CourseFeedback
+from mainapp.models import (
+    News,
+    Courses,
+    CourseTeachers,
+    Lesson,
+    CourseFeedback,
+)
 
 # from datetime import datetime
 
+# logger = logging.getLogger(__name__)
 
 class ContactsView(TemplateView):
     template_name = 'mainapp/contacts.html'
@@ -162,6 +180,18 @@ class CourseDetailView(TemplateView):
             cache.set(feedback_list_key, context_data['feedback_list'],
                       timeout=300  # время жизни кэша
                       )
+            # Archive object for tests --->
+            import pickle
+
+            # with open(f"mainapp/fixtures/005_feedback_list_{pk}.bin", "wb"
+            #           ) as outf:
+
+            with open(
+                f"mainapp/fixtures/005_feedback_list_{context_data['course_object'].pk}.bin",
+                "wb"
+            ) as outf:
+                pickle.dump(context_data["feedback_list"], outf)
+            # <--- Archive object for tests
         else:
             context_data['feedback_list'] = cached_feedback_list
 
@@ -196,7 +226,7 @@ class LogView(UserPassesTestMixin, TemplateView):
         context_data = super().get_context_data(**kwargs)
         log_lines = []
         i = 0
-        with open(settings.BASE_DIR / 'log/main_log.log') as log_file:
+        with open(settings.BASE_DIR / 'var/log/main_log.log') as log_file:
             for i, line in enumerate(log_file):
                 if i == 1000:
                     break
