@@ -14,7 +14,7 @@ def send_feedback_to_email(message_body: str, message_from: int = None) -> None:
     send_mail(
         subject=f"Feedback from: {user_from}",  # тема письма
         message=message_body,  # само сообщение
-        recipient_list=['support@blms.local'],
-        from_email='support@blms.local',
+        recipient_list=['support@blms.local'],  # кому
+        from_email='support@blms.local',  # от кого
         fail_silently=False  # по умолчанию True
     )

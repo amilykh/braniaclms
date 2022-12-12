@@ -224,7 +224,7 @@ CACHES = {
 
 # насторойки для celery
 CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://loclhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 
 # EMAIL_HOST = ''
 # EMAIL_PORT = 25
@@ -245,7 +245,7 @@ CELERY_RESULT_BACKEND = 'redis://loclhost:6379'
 
 # для локльного тестирования
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = 'emails-tmp'  # каталог для хранения
+EMAIL_FILE_PATH = "var/email-messages/"  # каталог для хранения
 
 LOCALE_PATHS = [BASE_DIR / 'locale',]
 
@@ -276,6 +276,8 @@ LOGGING = {
     },
 }
 
+SELENIUM_DRIVER_PATH_FF = BASE_DIR / "var" / "selenium" / "geckodriver"
+
 # # Самый простой вариант создания логов STREAM-handler
 # LOGGING = {
 #     "version": 1,
@@ -293,3 +295,4 @@ LOGGING = {
 #         "django": {"level": "INFO", "handlers": ["console"]},
 #     },
 # }
+

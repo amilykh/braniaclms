@@ -1,0 +1,14 @@
+1670790187371	geckodriver	INFO	Listening on 127.0.0.1:58335
+/snap/firefox/current/firefox.launcher: 46: exec: /snap/pycharm-professional/314/usr/lib/firefox/firefox: not found
+1670790188012	mozrunner::runner	INFO	Running command: "/snap/firefox/current/firefox.launcher" "--marionette" "--remote-debugging-port" "38883" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileCpuFLd"
+/snap/firefox/current/firefox.launcher: 46: exec: /snap/pycharm-professional/314/usr/lib/firefox/firefox: not found
+1670790188236	geckodriver	INFO	Listening on 127.0.0.1:35571
+/snap/firefox/current/firefox.launcher: 46: exec: /snap/pycharm-professional/314/usr/lib/firefox/firefox: not found
+1670790188746	mozrunner::runner	INFO	Running command: "/snap/firefox/current/firefox.launcher" "--marionette" "--remote-debugging-port" "50095" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileqQ5q26"
+/snap/firefox/current/firefox.launcher: 46: exec: /snap/pycharm-professional/314/usr/lib/firefox/firefox: not found
+1670795371161	geckodriver	INFO	Listening on 127.0.0.1:56997
+1670795371654	mozrunner::runner	INFO	Running command: "/snap/firefox/current/firefox.launcher" "--marionette" "--remote-debugging-port" "53197" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileu8sMvP"
+1670795371758	geckodriver	INFO	Listening on 127.0.0.1:59133
+1670795372265	mozrunner::runner	INFO	Running command: "/snap/firefox/current/firefox.launcher" "--marionette" "--remote-debugging-port" "48849" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofilePIA8qO"
+1670798921105	geckodriver	INFO	Listening on 127.0.0.1:42299
+1670798921608	mozrunner::runner	INFO	Running command: "/snap/firefox/current/firefox.launcher" "--marionette" "--remote-debugging-port" "42573" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofilepIjkEU"
